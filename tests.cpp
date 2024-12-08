@@ -1,8 +1,11 @@
 #include "TodoBy.h"
 
-// The following lines will fail to compile if you uncomment them:
-//CZ_COMPILE_TIMEBOMB("Dec 08 2024 00:47:00", "This should have been fixed already.");
-//CZ_TODO_BY("Dec 08 2024 00:47:00");
+//
+// The following lines will fail to compile after the specified time stamp.
+//
+// CZ_COMPILE_TIMEBOMB("Dec 08 2024 00:47:00", "This should have been fixed already.");
+// CZ_TODO_BY("Dec 08 2024 00:47:00");
+// CZ_TODO_BY("Dec 08 2024"); // If time is missing it assumes 00:00:00
 
 #include <stdio.h>
 
