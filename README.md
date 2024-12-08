@@ -12,7 +12,8 @@ compilation will fail. This is perfect for teams looking to set deadlines for co
 E.g:
 
 ```
-CZ_COMPILE_TIMEBOMB("Dec 09 2024 16:00:00", "Implement this function"); // Trying to compile after Dec 9th, 2024, at 4pm, will fail.
+// Trying to compile after Dec 9th, 2024, at 4pm, will fail.
+CZ_COMPILE_TIMEBOMB("Dec 09 2024 16:00:00", "Implement this function before finishing for the day.");
 ```
 
 If you don't want a custom message you can simply use:
@@ -21,7 +22,7 @@ If you don't want a custom message you can simply use:
 CZ_TODO_BY("Dec 09 2024 16:00:00");
 ```
 
-If the time is not specified, it assume `00:00:00`:
+If the time is not specified, it assumes `00:00:00`:
 
 ```
 CZ_TODO_BY("Dec 09 2024");  // Fails as once the clock turns Dec 9th, 2024.
@@ -40,5 +41,4 @@ CZ_TODO_BY("Dec 09 2024");  // Fails as once the clock turns Dec 9th, 2024.
 * Ensure your project uses **C++20 or higher**.
 * Include the `TodoBy.h` header in your code.
 * Use the provided macros (`CZ_COMPILE_TIMEBOMB` or `CZ_TODO_BY`) where needed.
-
 
