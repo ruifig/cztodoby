@@ -77,10 +77,10 @@ namespace cz::details::ConstEvalDate
 	{
 		// Mmm dd yyyy hh:mm:ss
 		// 01234567890123456789
-		bool validDate = isChar(date, ' ', 3, 6) && (date[4] == ' ' || isDigit(date, 4)) && isDigit(date, 5, 7, 8, 9, 10);
+		bool validDate = isChar(date, ' ', 3u, 6u) && (date[4] == ' ' || isDigit(date, 4u)) && isDigit(date, 5u, 7u, 8u, 9u, 10u);
 		bool validTime = (date.size() == 11) ||
-			(isChar(date, ' ', 11) && isChar(date, ':', 14, 17) && isDigit(date, 12, 13, 15, 16, 18, 19));
-		return (date.size() == 11 || date.size() == 20) && validDate && validTime;
+			(isChar(date, ' ', 11u) && isChar(date, ':', 14u, 17u) && isDigit(date, 12u, 13u, 15u, 16u, 18u, 19u));
+		return (date.size() == 11u || date.size() == 20u) && validDate && validTime;
 	}
 
 	// Gets a number with n digits
@@ -105,18 +105,18 @@ namespace cz::details::ConstEvalDate
 	consteval unsigned int getMonth(const std::string_view date)
 	{
 		return
-			monthEquals(date, "Jan")   ?  1 :
-			monthEquals(date, "Feb")   ?  2 : 
-			monthEquals(date, "Mar")   ?  3 :
-			monthEquals(date, "Apr")   ?  4 :
-			monthEquals(date, "May")   ?  5 :
-			monthEquals(date, "Jun")   ?  6 :
-			monthEquals(date, "Jul")   ?  7 :
-			monthEquals(date, "Aug")   ?  8 :
-			monthEquals(date, "Sep")   ?  9 :
-			monthEquals(date, "Oct")   ? 10 :
-			monthEquals(date, "Nov")   ? 11 :
-			monthEquals(date, "Dec")   ? 12 :
+			monthEquals(date, "Jan")   ?  1u :
+			monthEquals(date, "Feb")   ?  2u : 
+			monthEquals(date, "Mar")   ?  3u :
+			monthEquals(date, "Apr")   ?  4u :
+			monthEquals(date, "May")   ?  5u :
+			monthEquals(date, "Jun")   ?  6u :
+			monthEquals(date, "Jul")   ?  7u :
+			monthEquals(date, "Aug")   ?  8u :
+			monthEquals(date, "Sep")   ?  9u :
+			monthEquals(date, "Oct")   ? 10u :
+			monthEquals(date, "Nov")   ? 11u :
+			monthEquals(date, "Dec")   ? 12u :
 			0;
 	}
 
@@ -124,7 +124,7 @@ namespace cz::details::ConstEvalDate
 	// It doesn't validate that is actually a valid day of the month. That's done in higher code 
 	consteval unsigned int getDay(const std::string_view date)
 	{
-		return (date[4] == ' ' ? 0 : (date[4] - '0')) * 10 + (date[5] - '0');
+		return (date[4] == ' ' ? 0u : (date[4] - '0')) * 10u + (date[5] - '0');
 	}
 
 	// Returns the year, but doesn't validate it
@@ -137,9 +137,9 @@ namespace cz::details::ConstEvalDate
 	consteval bool isValidDate(unsigned int year, unsigned int month, unsigned int day)
 	{
 		unsigned int maxDays =
-			(month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) ? 31 :
-			(month == 4 || month == 6 || month == 9 || month == 11) ? 30 :
-			std::chrono::year(year).is_leap() ? 29 : 28;
+			(month == 1u || month == 3u || month == 5u || month ==  7u || month == 8u || month == 10u || month == 12u) ? 31u :
+			(month == 4u || month == 6u || month == 9u || month == 11u) ? 30u :
+			std::chrono::year(static_cast<int>(year)).is_leap() ? 29u : 28u;
 
 		return year >= 1970 && year <= 9999 && month >= 1 && month <= 12 && day >= 1 && day <= maxDays;
 	}

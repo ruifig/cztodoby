@@ -2,11 +2,21 @@ cmake_minimum_required(VERSION 3.27)
 
 project(cztodoby)
 
-set(ALL_FILES
-    "tests.cpp"
-    "TodoBy.h"
+add_library(cztodoby INTERFACE
+	"./source/crazygaze/TodoBy.h"
 )
 
-add_executable(cztodoby ${ALL_FILES})
-set_target_properties(cztodoby PROPERTIES CXX_STANDARD 20)
+# Setup a custom target that doesn't do anything and is just used to show the headers in Visual Studio
+# add_custom_target(cztodoby_ SOURCES "./source/crazygaze/TodoBy.h")
+
+target_include_directories(cztodoby INTERFACE "./source")
+target_compile_features(cztodoby INTERFACE cxx_std_20)
+
+if (PROJECT_IS_TOP_LEVEL)
+	add_executable(cztodoby_tests "./tests.cpp")
+	target_link_libraries(cztodoby_tests cztodoby)
+	if (MSVC)
+		target_compile_options(cztodoby_tests PRIVATE /Wall)
+	endif()
+endif()
 

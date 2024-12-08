@@ -1,4 +1,4 @@
-#include "TodoBy.h"
+#include "crazygaze/TodoBy.h"
 
 //
 // The following lines will fail to compile after the specified time stamp.
@@ -15,15 +15,15 @@ int main()
 	using namespace cz;
 
 	//
-	static_assert(details::ConstEvalDate::isDigit("2-1", 0,2) == true);
-	static_assert(details::ConstEvalDate::isDigit("21-", 0,2) == false);
-	static_assert(details::ConstEvalDate::isDigit("--1", 0,2) == false);
+	static_assert(details::ConstEvalDate::isDigit("2-1", 0u,2u) == true);
+	static_assert(details::ConstEvalDate::isDigit("21-", 0u,2u) == false);
+	static_assert(details::ConstEvalDate::isDigit("--1", 0u,2u) == false);
 	//
-	static_assert(details::ConstEvalDate::isChar("--a-a", 'a', 2, 4) == true);
-	static_assert(details::ConstEvalDate::isChar("--a-b", 'a', 2, 4) == false);
+	static_assert(details::ConstEvalDate::isChar("--a-a", 'a', 2u, 4u) == true);
+	static_assert(details::ConstEvalDate::isChar("--a-b", 'a', 2u, 4u) == false);
 	//
-	static_assert(details::ConstEvalDate::getNumber("--12345--", 2, 5) == 12345);
-	static_assert(details::ConstEvalDate::getNumber("--1--", 2, 1) == 1);
+	static_assert(details::ConstEvalDate::getNumber("--12345--", 2u, 5u) == 12345u);
+	static_assert(details::ConstEvalDate::getNumber("--1--", 2u, 1u) == 1u);
 	//
 	static_assert(details::ConstEvalDate::validateCharacters("Dec  2 2024") == true);
 	static_assert(details::ConstEvalDate::validateCharacters("Dec 02 2024") == true);
@@ -72,8 +72,6 @@ int main()
 	static_assert(details::ConstEvalDate::isValidDate(9999, 1, 1) == true);
 	static_assert(details::ConstEvalDate::isValidDate(10000, 1, 1) == false);
 	static_assert(details::ConstEvalDate::isValidDate(2024, 12, 40) == false);
-
-	constexpr auto d = CZ_DATE_TO_NUMBER("Dec 02 2024 12:34:56");
 
 	// Test day parsing
 	static_assert(CZ_DATE_TO_NUMBER("Dec  2 2024") == 20241202000000);

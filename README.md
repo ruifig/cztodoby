@@ -41,6 +41,7 @@ CZ_TODO_BY("Dec 09 2024");  // Fails as once the clock turns Dec 9th, 2024.
 
 * Ensure your project uses **C++20 or higher**.
 * Include the `TodoBy.h` header in your code.
+	* If you prefer to use cmake, the included script defines the `cztodoby` target that you can use.
 * Use the provided macros (`CZ_COMPILE_TIMEBOMB` or `CZ_TODO_BY`) where needed.
 
 Depending on your team's preferences, you might want time bombs to trigger only for specific build types.
