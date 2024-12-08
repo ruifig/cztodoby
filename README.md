@@ -42,3 +42,9 @@ CZ_TODO_BY("Dec 09 2024");  // Fails as once the clock turns Dec 9th, 2024.
 * Include the `TodoBy.h` header in your code.
 * Use the provided macros (`CZ_COMPILE_TIMEBOMB` or `CZ_TODO_BY`) where needed.
 
+Depending on your team's preferences, you might want the times only on specific build types.
+By default it's enabled for all builds. If you with to disable, define the `CZTODOBY_ENABLE` macro to `0` for whatever builds you want it off.
+
+Depending on your team's preferences, you might want time bombs to trigger only for specific build types.
+By default, they are enabled for all builds. To disable them for certain builds, define the `CZTODOBY_ENABLED` macro as `0` in the corresponding build configuration(s).
+

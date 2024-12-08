@@ -8,6 +8,17 @@
 
 #pragma once
 
+/**
+ * By default, time bombs are enabled for all builds.
+ * To disable them for certain builds, define the `CZTODOBY_ENABLED` macro as `0` in the corresponding build configuration(s).
+ * No need to change this file.
+ */
+#ifndef CZTODOBY_ENABLED
+	#define CZTODOBY_ENABLED 1
+#endif
+
+#if CZTODOBY_ENABLED
+
 #include <chrono>
 
 /**
@@ -169,5 +180,13 @@ namespace cz::details::ConstEvalDate
 	}
 
 } // namespace cz::details::ConstEvalDate
+
+#else
+
+#define CZ_COMPILE_TIMEBOMB(expirationDate, msg)
+#define CZ_TODO_BY(expirationDate)
+
+#endif
+
 
 
