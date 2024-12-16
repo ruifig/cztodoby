@@ -4,6 +4,13 @@
  *
  * C++ Compile time bomb.
  * The provided macro(s) allow adding TODOs with an expiration date and time. Once that date and time are hit, compilation fails.
+ *
+ *
+ * The macros you should use are:
+ * - CZ_COMPILE_TIMEBOMB, CZ_COMPILE_TIMEBOMB_USER : Allows specifying a custom message
+ * - CZ_TODO_BY, CZ_TODO_BY_USER : Uses a generic message
+ *
+ * All other macros and code in cz::details are for internal use only.
  */
 
 #pragma once
@@ -40,6 +47,10 @@
  */
 #define CZ_DATE_TO_NUMBER(date) ::cz::details::ConstEvalDate::toNumber( []() { return date; })
 
+// Used internally
+#define CZ_COMPILE_TIMEBOMB_IMPL(enabled, expirationDate, msg)                                               \
+		static_assert(((enabled)==false) || (CZ_DATE_TO_NUMBER(__DATE__ " " __TIME__) < CZ_DATE_TO_NUMBER(expirationDate)), msg)
+
 /**
  * Inserts a compile time bomb.
  * Once the translation unit's date and time of compilation hits the specified time, it fails to compile.
@@ -47,11 +58,29 @@
  * E.g:
  * CZ_COMPILE_TIMEBOMB("Dec 01 2024 15:00:00"); // Once the current date and time hits 1st of Dec 2024 at 3pm, it fails to compile.
  */
-#define CZ_COMPILE_TIMEBOMB(expirationDate, msg)                     \
-	static_assert(CZ_DATE_TO_NUMBER(__DATE__ " " __TIME__) < CZ_DATE_TO_NUMBER(expirationDate), msg)
+#define CZ_COMPILE_TIMEBOMB(expirationDate, msg) \
+	CZ_COMPILE_TIMEBOMB_IMPL(false, expirationDate, msg)
 
 /** Shortcut to insert TODOs in the code */
-#define CZ_TODO_BY(expirationDate) CZ_COMPILE_TIMEBOMB(expirationDate, "TODO hit expiration date/time. Please fix!")
+#define CZ_TODO_BY(expirationDate) \
+	CZ_COMPILE_TIMEBOMB_IMPL(false, expirationDate, "TODO hit expiration date/time. Please fix!")
+
+
+/**
+ * Same as CZ_COMPILE_TIMEBOMB, but only triggers if the current user name (at compile time) matches the specified user name
+ *
+ * The username is case insensitive.
+ */
+#define CZ_COMPILE_TIMEBOMB_USER(username, expirationDate, msg) \
+	CZ_COMPILE_TIMEBOMB_IMPL(::cz::details::ConstEvalDate::equalsCi(std::string_view(username), std::string_view(CZTODOBY_USER)), expirationDate, msg)
+
+/**
+ * Same as CZ_TODO_BY_USER, but only triggers if the current user name (at compile time) matches the specified user name
+ *
+ * The username is case insensitive.
+ */
+#define CZ_TODO_BY_USER(username, expirationDate) \
+	CZ_COMPILE_TIMEBOMB_IMPL(::cz::details::ConstEvalDate::equalsCi(std::string_view(username), std::string_view(CZTODOBY_USER)), expirationDate, "TODO hit expiration date/time. Please fix!")
 
 /**
  * Utility functions to parse things.
@@ -179,14 +208,39 @@ namespace cz::details::ConstEvalDate
 			hours * 10000 + minutes * 100 + seconds;
 	}
 
+	// Converts an ASCII letter to lower case
+	consteval char chToLower(char ch)
+	{
+		return (ch>='A' && ch<='Z') ? ch + ('a' - 'A') : ch;
+	}
+
+	// Helper function for equalsCi
+	template<typename StringHolder>
+	consteval bool equalsCi_helper(StringHolder a, StringHolder b)
+	{
+		bool res = true;
+		for(unsigned int i = 0; i<a.size(); i++)
+		{
+			res = res && (chToLower(a[i]) == chToLower(b[i]));
+		}
+
+		return res;
+	}
+
+	// Checks if two strings are equal (ignoring case)
+	template<typename StringHolder>
+	consteval bool equalsCi(StringHolder a, StringHolder b)
+	{
+		return a.size() == b.size() && equalsCi_helper(a, b);
+	}
+
 } // namespace cz::details::ConstEvalDate
 
 #else
 
 #define CZ_COMPILE_TIMEBOMB(expirationDate, msg)
 #define CZ_TODO_BY(expirationDate)
+#define CZ_TODO_BY_USER(username, expirationDate)
 
 #endif
-
-
 

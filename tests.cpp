@@ -73,6 +73,13 @@ int main()
 	static_assert(details::ConstEvalDate::isValidDate(10000, 1, 1) == false);
 	static_assert(details::ConstEvalDate::isValidDate(2024, 12, 40) == false);
 
+	static_assert(details::ConstEvalDate::equalsCi(std::string_view("Rui"), std::string_view("Rui")) == true);
+	static_assert(details::ConstEvalDate::equalsCi(std::string_view("rUi"), std::string_view("Rui")) == true); // Make sure it's case insensitive
+	static_assert(details::ConstEvalDate::equalsCi(std::string_view("aa"), std::string_view("aaa")) == false); // make sure it deals with different sizes
+	static_assert(details::ConstEvalDate::equalsCi(std::string_view("aa"), std::string_view("ab")) == false);
+
+
+
 	// Test day parsing
 	static_assert(CZ_DATE_TO_NUMBER("Dec  2 2024") == 20241202000000);
 	static_assert(CZ_DATE_TO_NUMBER("Dec 02 2024") == 20241202000000);
@@ -103,6 +110,14 @@ int main()
 	// Test some comparisons
 	static_assert(CZ_DATE_TO_NUMBER("Dec 01 1970 12:34:56") < CZ_DATE_TO_NUMBER("Dec 01 1970 12:34:57"));
 #endif
+
+	// These will not trigger any time soon :)
+	CZ_TODO_BY("Jan 01 3000");
+	CZ_COMPILE_TIMEBOMB("Jan 01 3000", "Custom message");
+
+	// These should not trigger, because the username doesn't match the user compiling the code
+	CZ_TODO_BY_USER("_Rui_invalidname", "Dec 16 1999");
+	CZ_COMPILE_TIMEBOMB_USER("_Rui_invalidname", "Dec 16 1999", "Custom message");
 
 	printf("Compilation date and time: %s %s\n", __DATE__, __TIME__);
 

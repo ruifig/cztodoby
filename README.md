@@ -47,3 +47,18 @@ CZ_TODO_BY("Dec 09 2024");  // Fails as once the clock turns Dec 9th, 2024.
 Depending on your team's preferences, you might want time bombs to trigger only for specific build types.
 By default, they are enabled for all builds. To disable them for certain builds, define the `CZTODOBY_ENABLED` macro as `0` in the corresponding build configuration(s).
 
+# Setting time bombs per developer
+
+If timebombs end up being too annoying for the rest of the team, you can instead set time bombs that only trigger for a specific developer.
+
+The macros ending in `_USER` (e.g `CZ_TODO_BY_USER`) allow specifying the user the time bomb applies to.
+This is implemented by having the CMakeLists.txt retrieve the username from the environment variables and setting a `CZTODOBY_USER` define.
+This is then used to compare against the username provided by the time bomb.
+
+Example:
+
+```cpp
+// Only triggers when it's me (Rui) building the code
+CZ_TODO_BY_USER("Rui", "Jan 01 2025");
+```
+
