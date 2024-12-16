@@ -4,8 +4,7 @@
  *
  * C++ Compile time bomb.
  * The provided macro(s) allow adding TODOs with an expiration date and time. Once that date and time are hit, compilation fails.
- *
- *
+ * 
  * The macros you should use are:
  * - CZ_COMPILE_TIMEBOMB, CZ_COMPILE_TIMEBOMB_USER : Allows specifying a custom message
  * - CZ_TODO_BY, CZ_TODO_BY_USER : Uses a generic message
@@ -27,6 +26,7 @@
 #if CZTODOBY_ENABLED
 
 #include <chrono>
+#include <string_view>
 
 /**
  * This is an helper macro, and there is no need to use this directly.

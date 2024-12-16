@@ -2,6 +2,8 @@
 
 C++ compile-time bomb (Fails compilation after a specified date/time)
 
+**NOTE**: cztodoby requires a C++20 compiler has been tested with VS 2022 and clang 16.
+
 Technical debt is inevitable, but ignoring it shouldn't be.
 To encourage timely action, **cztodoby** provides compile-time bombs: macros that fail compilation after a specified date and time.
 These serve as helpful reminders for tasks or deadlines, ensuring important updates aren't overlooked.
