@@ -59,11 +59,11 @@
  * CZ_COMPILE_TIMEBOMB("Dec 01 2024 15:00:00"); // Once the current date and time hits 1st of Dec 2024 at 3pm, it fails to compile.
  */
 #define CZ_COMPILE_TIMEBOMB(expirationDate, msg) \
-	CZ_COMPILE_TIMEBOMB_IMPL(false, expirationDate, msg)
+	CZ_COMPILE_TIMEBOMB_IMPL(true, expirationDate, msg)
 
 /** Shortcut to insert TODOs in the code */
 #define CZ_TODO_BY(expirationDate) \
-	CZ_COMPILE_TIMEBOMB_IMPL(false, expirationDate, "TODO hit expiration date/time. Please fix!")
+	CZ_COMPILE_TIMEBOMB_IMPL(true, expirationDate, "TODO hit expiration date/time. Please fix!")
 
 
 /**
@@ -239,6 +239,7 @@ namespace cz::details::ConstEvalDate
 #else
 
 #define CZ_COMPILE_TIMEBOMB(expirationDate, msg)
+#define CZ_COMPILE_TIMEBOMB_USER(username, expirationDate, msg)
 #define CZ_TODO_BY(expirationDate)
 #define CZ_TODO_BY_USER(username, expirationDate)
 

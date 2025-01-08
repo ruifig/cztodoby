@@ -1,3 +1,4 @@
+#define CZTODOBY_ENABLED 1
 #include "crazygaze/TodoBy.h"
 
 //
