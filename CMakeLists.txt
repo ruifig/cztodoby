@@ -14,8 +14,14 @@ target_compile_features(cztodoby INTERFACE cxx_std_20)
 
 # Set a define with the user name, so we can use them in time bombs that should only trigger for a specific user
 # The USERNAME environment variable exists for both Windows and Linux
-string(TOLOWER $ENV{USERNAME} username)
-message(STATUS "Setting CZTODOBY_USER environment variable to \"${username}\"")
+if (DEFINED ENV{USERNAME})
+	string(TOLOWER $ENV{USERNAME} username)
+	message(STATUS "Setting CZTODOBY_USER environment variable to \"${username}\"")
+else()
+	set(username "cztodoby_no_user_set")
+	message(WARNING "No USERNAME environment variable set. Setting CZTODOBY_USER environment variable to \"${username}\"")
+endif()
+
 target_compile_definitions(cztodoby INTERFACE CZTODOBY_USER="${username}")
 
 if (PROJECT_IS_TOP_LEVEL)
